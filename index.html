@@ -84,7 +84,7 @@
 
 <script>
   // 通过Fetch API读取dates.json文件
-  fetch("https://tmz.520-love.top/dates.json")
+  fetch("./dates.json")
     .then(response => response.json())
     .then(data => {
       const dates = data.dates;
@@ -117,14 +117,18 @@
     var startDateObj = new Date(startDate);
     var currentDate = new Date();
     var daysDifference = Math.floor((currentDate - startDateObj) / (1000 * 60 * 60 * 24));
+    if (daysDifference<0){
+      document.getElementById(elementId).innerText = -daysDifference+' 天';
+      captionElement.innerText = `距离${title}`;
+    }else{
 
     document.getElementById(elementId).innerText = daysDifference+' 天';
-    captionElement.innerText = `${title}`;
+    captionElement.innerText = `${title}`;}
   }
 
   // 定期更新天数（可根据需要调整更新频率）
   setInterval(function() {
-    fetch('https://tmz.520-love.top/dates.json')
+    fetch('./dates.json')
       .then(response => response.json())
       .then(data => {
         const dates = data.dates;
