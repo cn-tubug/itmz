@@ -1,7 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>倒数日</title>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <header>
+        <h1>倒数日</h1>
+    </header>
+    <main>
+        <section class="list">
+            <ul>
+                <li>
+                    <a href="#">
+                        <span class="title">生日</span>
+                        <span class="countdown">2023-12-25 23:59:59</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="title">纪念日</span>
+                        <span class="countdown">2024-02-20 12:00:00</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="title">考试</span>
+                        <span class="countdown">2024-07-20 09:00:00</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <span class="title">旅游</span>
+                        <span class="countdown">2024-08-20 18:00:00</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <section class="add">
+            <form action="/add" method="post">
+                <input type="text" name="title" placeholder="标题">
+                <input type="date" name="date" placeholder="日期">
+                <input type="submit" value="添加">
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>Copyright &copy; 2023 Clover</p>
+    </footer>
 </body>
 </html>
