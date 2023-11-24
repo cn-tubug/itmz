@@ -28,7 +28,21 @@
       font-style: italic;
       color: #fff;
       margin-bottom: 30px;
+      overflow: hidden; /* 隐藏超出的部分 */
+      white-space: nowrap; /* 禁止文本换行 */
+      border-right: 2px solid #fff; /* 添加光标效果 */
+      animation: typing 5s steps(50, end);
     }
+
+    @keyframes typing {
+  from {
+    max-width: 0;
+  }
+  to {
+    max-width: 100%;
+  }
+}
+
 
     .cards-container {
       display: flex;
@@ -65,7 +79,7 @@
 
 <div class="title">ZDX 🧡 TMZ</div>
 <div class="subtitle">"相识是一种奇迹，相恋是一种选择"</div>
-  
+
 <div class="cards-container" id="cardsContainer"></div>
 
 <script>
