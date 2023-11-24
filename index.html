@@ -1,52 +1,118 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <title>倒数日</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我们 - 相识和相恋的天数</title>
+  <style>
+      body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .cards-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+      margin: 10px;
+      width: 300px; /* 设置卡片的最大宽度 */
+    }
+
+    .days {
+      font-size: 36px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .caption {
+      font-size: 18px;
+      color: #666;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>倒数日</h1>
-    </header>
-    <main>
-        <section class="list">
-            <ul>
-                <li>
-                    <a href="#">
-                        <span class="title">生日</span>
-                        <span class="countdown">2023-12-25 23:59:59</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="title">纪念日</span>
-                        <span class="countdown">2024-02-20 12:00:00</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="title">考试</span>
-                        <span class="countdown">2024-07-20 09:00:00</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <span class="title">旅游</span>
-                        <span class="countdown">2024-08-20 18:00:00</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-        <section class="add">
-            <form action="/add" method="post">
-                <input type="text" name="title" placeholder="标题">
-                <input type="date" name="date" placeholder="日期">
-                <input type="submit" value="添加">
-            </form>
-        </section>
-    </main>
-    <footer>
-        <p>Copyright &copy; 2023 Clover</p>
-    </footer>
+
+<div class="title">关于我们</div>
+
+<div class="cards-container" id="cardsContainer"></div>
+
+<script>
+  // 通过Fetch API读取dates.json文件
+  fetch("https://iphy.eu.org/dates.json")
+    .then(response => response.json())
+    .then(data => {
+      const dates = data.dates;
+      const cardsContainer = document.getElementById('cardsContainer');
+
+      // 遍历日期数据，生成卡片
+      dates.forEach(dateData => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+
+        const daysDiv = document.createElement('div');
+        daysDiv.classList.add('days');
+        daysDiv.id = dateData.title.replace(/\s+/g, ''); // 使用标题去除空格作为ID
+        const captionDiv = document.createElement('div');
+        captionDiv.classList.add('caption');
+        daysDiv.textContent = '加载中...';
+
+        card.appendChild(daysDiv);
+        card.appendChild(captionDiv);
+        cardsContainer.appendChild(card);
+
+        // 更新卡片的天数
+        updateDaysCounter(dateData.startDate, daysDiv.id, captionDiv, dateData.title);
+      });
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+  // 计算天数并更新页面
+  function updateDaysCounter(startDate, elementId, captionElement, title) {
+    var startDateObj = new Date(startDate);
+    var currentDate = new Date();
+    var daysDifference = Math.floor((currentDate - startDateObj) / (1000 * 60 * 60 * 24));
+
+    document.getElementById(elementId).innerText = daysDifference;
+    captionElement.innerText = `${title}（从${startDate}开始）`;
+  }
+
+  // 定期更新天数（可根据需要调整更新频率）
+  setInterval(function() {
+    fetch('./dates.json')
+      .then(response => response.json())
+      .then(data => {
+        const dates = data.dates;
+        dates.forEach(dateData => {
+          const daysDiv = document.getElementById(dateData.title.replace(/\s+/g, ''));
+          const captionDiv = daysDiv.nextElementSibling;
+          updateDaysCounter(dateData.startDate, daysDiv.id, captionDiv, dateData.title);
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, 1000); // 每秒更新一次
+</script>
+
 </body>
 </html>
