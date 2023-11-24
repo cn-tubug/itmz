@@ -60,7 +60,7 @@
 
 <script>
   // 通过Fetch API读取dates.json文件
-  fetch("https://iphy.eu.org/dates.json")
+  fetch('./dates.json')
     .then(response => response.json())
     .then(data => {
       const dates = data.dates;
