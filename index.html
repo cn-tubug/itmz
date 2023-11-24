@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>关于我们 - 相识和相恋的天数</title>
   <style>
-      body {
+    body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
+      background: linear-gradient(to right, #FF9A8B, #FF6A88); /* 粉色渐变色背景 */
       padding: 0;
       display: flex;
       flex-direction: column;
@@ -20,8 +19,15 @@
     .title {
       font-size: 24px;
       font-weight: bold;
-      color: #333;
+      color: #fff;
       margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 30px;
     }
 
     .cards-container {
@@ -31,36 +37,40 @@
     }
 
     .card {
-      background-color: #fff;
+      background-image: url('card-background.jpg'); /* 卡片背景图片路径 */
+      background-size: cover; /* 图片覆盖整个卡片背景 */
+      background-position: center center; /* 图片居中对齐 */
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       padding: 20px;
       text-align: center;
       margin: 10px;
-      width: 300px; /* 设置卡片的最大宽度 */
+      width: 150px;
+      backdrop-filter: blur(10px);
     }
 
     .days {
       font-size: 36px;
       font-weight: bold;
-      color: #333;
+      color: #999; /* 白色文字，以适应背景图片颜色 */
     }
 
     .caption {
       font-size: 18px;
-      color: #666;
+      color: #999; /* 白色文字，以适应背景图片颜色 */
     }
   </style>
 </head>
 <body>
 
-<div class="title">关于我们</div>
-
+<div class="title">ZDX 🧡 TMZ</div>
+<div class="subtitle">"相识是一种奇迹，相恋是一种选择"</div>
+  
 <div class="cards-container" id="cardsContainer"></div>
 
 <script>
   // 通过Fetch API读取dates.json文件
-  fetch('./dates.json')
+  fetch("https://tmz.520-love.top/dates.json")
     .then(response => response.json())
     .then(data => {
       const dates = data.dates;
@@ -70,12 +80,12 @@
       dates.forEach(dateData => {
         const card = document.createElement('div');
         card.classList.add('card');
-
+        const captionDiv = document.createElement('div');
+        captionDiv.classList.add('caption');
         const daysDiv = document.createElement('div');
         daysDiv.classList.add('days');
         daysDiv.id = dateData.title.replace(/\s+/g, ''); // 使用标题去除空格作为ID
-        const captionDiv = document.createElement('div');
-        captionDiv.classList.add('caption');
+
         daysDiv.textContent = '加载中...';
 
         card.appendChild(daysDiv);
@@ -94,13 +104,13 @@
     var currentDate = new Date();
     var daysDifference = Math.floor((currentDate - startDateObj) / (1000 * 60 * 60 * 24));
 
-    document.getElementById(elementId).innerText = daysDifference;
-    captionElement.innerText = `${title}（从${startDate}开始）`;
+    document.getElementById(elementId).innerText = daysDifference+' 天';
+    captionElement.innerText = `${title}`;
   }
 
   // 定期更新天数（可根据需要调整更新频率）
   setInterval(function() {
-    fetch('./dates.json')
+    fetch('https://tmz.520-love.top/dates.json')
       .then(response => response.json())
       .then(data => {
         const dates = data.dates;
