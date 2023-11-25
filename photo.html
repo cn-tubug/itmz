@@ -10,13 +10,12 @@
             margin: 0;
             padding: 0;
             background: linear-gradient(to right, #ff99cc, #ff6699); /* 从左到右的渐变背景 */
-            display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            min-height: 100vh; /* 使用 min-height 以确保内容至少占满整个视口高度 */
-            padding-top: 50%; /* 如果有上边距导致超出，尝试减小或移除 */
-            margin-bottom: 50%; /* 使用百分比来设置下边距 */
+            display: grid;
+    grid-template-rows: auto 1fr auto; 
+            min-height: 250vh;
 
         }
 
@@ -94,21 +93,10 @@
     </style>
 </head>
 <body>
-
-<section>
-    <h2>回忆时光</h2>
-
-    <div class="date">2023-11-25</div>
-    <img class="thumbnail" src="./img/thumbnail (1).jpg" alt="描述1" onclick="openModal('./img/mmexport1700584020172.jpg')">
-    <p>这是我们的第一次约会，永远难忘。</p>
-
-    <div class="date">2023-12-10</div>
-    <img class="thumbnail" src="./img/thumbnail (2).jpg" alt="描述2" onclick="openModal('./img/mmexport1700584024221.jpg')">
-    <p>一起度过的假期，分享快乐。</p>
-
-    <!-- 添加更多缩略图和描述 -->
-
-</section>
+    <section id="memorySection">
+        <h2>回忆时光</h2>
+        <!-- Content will be dynamically generated here -->
+      </section>
 
 <div class="modal" id="modal">
     <div class="modal-content" onclick="hideModal()">
@@ -122,6 +110,31 @@
   </div>
   
   <script>
+      // 异步请求获取 JSON 数据
+  fetch('./data/imgs.json')
+    .then(response => response.json())
+    .then(data => {
+      // 获取包含条目的父容器
+      const memorySection = document.getElementById("memorySection");
+
+      // 遍历 JSON 数据并生成相应的 HTML
+      data.entries.forEach(entry => {
+        const entryHtml = `
+          <div class="date">${entry.date}</div>
+          <img class="thumbnail" src="${entry.thumbnail_src}" alt="${entry.alt}" onclick="openModal('${entry.src}')">
+          <p>${entry.description}</p>
+        `;
+
+        // 创建一个新的 div 元素，将生成的 HTML 添加到该元素中
+        const entryElement = document.createElement("div");
+        entryElement.innerHTML = entryHtml;
+
+        // 将新创建的 div 元素添加到父容器中
+        memorySection.appendChild(entryElement);
+      });
+    })
+    .catch(error => console.error('Error fetching JSON:', error));
+
     function openModal(imagePath) {
       document.getElementById('myModal').style.display = 'block';
       document.getElementById('img01').src = imagePath;
