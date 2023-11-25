@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;,❤">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,7 +52,7 @@
     }
 
     .card {
-      background-image: url('card-background.jpg'); /* 卡片背景图片路径 */
+      background-image: url('./img/card-background.jpg'); /* 卡片背景图片路径 */
       background-size: cover; /* 图片覆盖整个卡片背景 */
       background-position: center center; /* 图片居中对齐 */
       border-radius: 8px;
@@ -84,7 +85,7 @@
 
 <script>
   // 通过Fetch API读取dates.json文件
-  fetch("./dates.json")
+  fetch("./data/dates.json")
     .then(response => response.json())
     .then(data => {
       const dates = data.dates;
@@ -128,7 +129,7 @@
 
   // 定期更新天数（可根据需要调整更新频率）
   setInterval(function() {
-    fetch('./dates.json')
+    fetch('./data/dates.json')
       .then(response => response.json())
       .then(data => {
         const dates = data.dates;
@@ -141,6 +142,8 @@
       .catch(error => console.error('Error fetching data:', error));
   }, 1000); // 每秒更新一次
 </script>
-
+<footer>
+  <p>&copy; 2023 TUBUG. All rights reserved.</p>
+</footer>
 </body>
 </html>
